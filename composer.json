@@ -1,0 +1,16 @@
+{
+    "name": "flimshaw/flimshaw-logger",
+    "description": "A php tool for graphing some data",
+    "require": {
+        "aws/aws-sdk-php": "2.*",
+        "silex/silex": ">= 1",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/twig-bridge": "~2.3"
+    },
+    "authors": [
+        {
+            "name": "Charlie",
+            "email": "charlie.hoey@gmail.com"
+        }
+    ]
+}
