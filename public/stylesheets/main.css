@@ -19,3 +19,9 @@ body {
   stroke: #ff6600;
   stroke-width: 1.5px;
 }
+
+.line2 {
+  fill: none;
+  stroke: #0066ff;
+  stroke-width: 1.5px;
+}

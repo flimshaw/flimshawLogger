@@ -6,8 +6,6 @@ use Aws\DynamoDb\DynamoDbClient;
 
 date_default_timezone_set('EST');
 
-error_reporting(0);
-
 // start silex app
 $app = new Silex\Application(); 
 
@@ -17,7 +15,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 // make a route for grabbing temperatures
-$app->get('/getTemps', function() use($app) { 
+$app->get('/getTemps/{pastHours}', function($pastHours) use($app) { 
 
 	// instantiate database client
 	$client = DynamoDbClient::factory(array(
@@ -37,7 +35,7 @@ $app->get('/getTemps', function() use($app) {
 	        ),
 	        'timestamp' => array(
 	            'AttributeValueList' => array(
-	                array('N' => strtotime("-24 hours"))
+	                array('N' => strtotime(-$pastHours . " hours"))
 	            ),
 	            'ComparisonOperator' => 'GT'
 	        )
@@ -59,11 +57,18 @@ $app->get('/getTemps', function() use($app) {
 
 	return json_encode($json_packet);
 
-});
+}); 
 
 // make a route for grabbing temperatures
 $app->get('/', function() use($app) { 
-	return $app['twig']->render('home.twig', array('testing' => 5));
+
+	if($_GET['pastHours'] != "") {
+		$pastHours = $_GET['pastHours'];
+	} else {
+		$pastHours = 24;
+	}
+
+	return $app['twig']->render('home.twig', array('pastHours' => $pastHours));
 }); 
 
 $app->run(); 
